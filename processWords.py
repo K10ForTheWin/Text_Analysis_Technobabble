@@ -49,3 +49,6 @@ def count_words(words):
   for k, v in d.items():
     if v>15:
       print(k, v)
+
+
+count_words(words)
