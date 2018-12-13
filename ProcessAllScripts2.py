@@ -1,6 +1,8 @@
 import os
 from collections import defaultdict
 
+##Change paths to relative paths
+
 
 def process_file(fi):
 ##  fname = os.path.join(root, name)

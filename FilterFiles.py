@@ -1,4 +1,5 @@
 # Get files of a certain size threshold, top 100
+#preview file lexicon
 import string
 from shutil import copyfile
 import os
@@ -34,7 +35,10 @@ def dir_dir(dirname):
   else:
     os.mkdir(dirname)
     
-root = "C:\Python3\data_char_lines"
+##root = "C:\Python3\data_char_lines"
+my_path = os.path.abspath(os.path.dirname(__file__))
+path = os.path.join(my_path, "data_char_lines")
+
 contents = os.listdir(root)
 
 root_keep = "C:\Python3\data_char_lines_top_100"

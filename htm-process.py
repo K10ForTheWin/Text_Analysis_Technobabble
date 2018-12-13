@@ -4,6 +4,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import os
 
+#initialize episode urls for download
 a =["http://www.chakoteya.net/Voyager/" + str(i) + ".htm" for i in range(101,117)]
 b =["http://www.chakoteya.net/Voyager/" + str(i) + ".htm" for i in range(201,226)]
 c =["http://www.chakoteya.net/Voyager/" + str(i) + ".htm" for i in range(301,322)]
@@ -15,35 +16,34 @@ voyager_all = []
 for x in [a,b,c,d,e,f,g]:
   voyager_all.extend(x)
 
-
-
 tng_all = ["http://www.chakoteya.net/NextGen/" + str(i) + ".htm" for i in range(102,278)]
 
 ent_1 = ["http://www.chakoteya.net/Enterprise/0" + str(i) + ".htm" for i in range(1,10)] #add the 0 before 1-9
 ent_2 = ["http://www.chakoteya.net/Enterprise/" + str(i) + ".htm" for i in range(10,98)]
 enterprise_all = ent_1 + ent_2
 
-
 dsnine_all = ["http://www.chakoteya.net/DS9/" + str(i) + ".htm" for i in range(401,576)]
 
 tos_all = ["http://www.chakoteya.net/StarTrek/" + str(i) + ".htm" for i in range(1,80)]
 
-ep_count = 0
 
+#set path to data/ for reset after each series downloads
+my_path = os.path.abspath(os.path.dirname(__file__))
 
-def preprocess(series, prefix):
-  fo_dir = "_".join(["scripts", prefix])
-  os.chdir("C:/Python3/data/")
-  if os.path.isdir(fo_dir):
+def is_dir(dirname):
+  if os.path.isdir(dirname):
     pass
   else:
-    os.mkdir(fo_dir)
+    os.mkdir(dirname)
     
-##  try:
-##    os.mkdir(fo_dir)
-##  except FileExistsError:
-##    pass
+def preprocess(series, prefix):
   
+  os.chdir(os.path.join(my_path), "data")
+
+  is_dir("data")
+
+  fo_dir = "_".join(["scripts", prefix])
+  is_dir(fo_dir)
   os.chdir(fo_dir)
 
   ep_count = 0
@@ -79,85 +79,20 @@ def preprocess(series, prefix):
     except urllib.error.HTTPError: #for episode numbers that do not exist
       print("idx ", idx,  "raised urllib.error.HTTPError:")
       continue
-    
-##preprocess(tng_all, "NextGen")
-##preprocess(voyager_all, "Voyager")
-##preprocess(dsnine_all, "DSNine")
-preprocess(enterprise_all, "Enterprise")
-#preprocess(tos_all, "TOS")
 
-##
-##for idx in tng_all:
-##  
-##  htmlSource = ''
-##
-##  try:
-##    with urllib.request.urlopen(idx) as response:
-##      htmlSource = response.read()
-##      soup = BeautifulSoup(htmlSource, "lxml")
-##
-##    text = soup.get_text()
-##    lines = text.split("\n")
-##    lines = [l for l in lines if l!='']
-##
-##    fname = idx.rsplit("/")[-1]
-##    fname = fname.strip(".htm")
-##    fname = fname + ".txt"
-##    outfile = os.path.join("scripts_tng_preprocessed", fname)
-##    
-##    print(outfile)
-##
-##    with open(outfile, 'w', encoding='utf-8') as fo:
-##      for line in lines:
-##        fo.write(line)
-##        fo.write("\n")
-##
-##    ep_count += 1
-##    
-##  except urllib.error.HTTPError: #for episode numbers that do not exist
-##    print("idx ", "raised urllib.error.HTTPError:")
-##    continue
-##  
-##
-##
-##
-##for x in [a,b,c,d,e,f,g]:
-##
-##  for idx in x:
-##    htmlSource = ''
-##
-##    try:
-##      with urllib.request.urlopen(idx) as response:
-##        htmlSource = response.read()
-##        soup = BeautifulSoup(htmlSource, "lxml")
-##
-##      text = soup.get_text()
-##      lines = text.split("\n")
-##      lines = [l for l in lines if l!='']
-##
-##      fname = idx.rsplit("/")[-1]
-##      fname = fname.strip(".htm")
-##      fname = fname + ".txt"
-##      outfile = os.path.join("scripts_voyager_preprocessed", fname)
-##      
-##      print(outfile)
-##
-##      with open(outfile, 'w', encoding='utf-8') as fo:
-##        for line in lines:
-##          fo.write(line)
-##          fo.write("\n")
-##
-##      ep_count += 1
-##      
-##    except urllib.error.HTTPError:
-##      print("idx ", "raised urllib.error.HTTPError:")
-##      continue
-##    
+def preprocess_all():
+  '''Call this function to download scripts from chakotay.net
+          for each respective series'''
+  preprocess(tng_all, "NextGen")
+  preprocess(voyager_all, "Voyager")
+  preprocess(dsnine_all, "DSNine")
+  preprocess(enterprise_all, "Enterprise")
+  preprocess(tos_all, "TOS")
 
-
-
-    
+  
 def download_scripts(series="NextGen", episode_list=tng_all):
+  '''Alternate method of downloading scripts'''
+  
   fo_dir = "_".join(["scripts", series, "preprocessed"])
 
   for idx in episode_list:
