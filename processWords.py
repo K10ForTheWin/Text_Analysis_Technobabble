@@ -3,22 +3,65 @@ from shutil import copyfile
 import os
 import operator
 from nltk.corpus import stopwords
+import multidict as multidict
 
+import numpy as np
 
-stopwords_nltk = set(stopwords.words('english'))
+import os
+import re
+from PIL import Image
+from os import path
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+my_path = os.path.abspath(os.path.dirname(__file__))
 
+def get_all_stopwords(character_names=True):
+  stopwords =[]
+  for file in os.listdir("resources"):
+    with open(os.path.join(my_path, "resources", file)) as infile:
+      if file=="char_stopwords.txt":
+        if character_names==False:
+          pass
+        else:
+          words = []
+          w = [line.strip() for line in infile.readlines()]
+          stopwords.extend(words)
+      else:
+        words = []
+        w = [line.strip() for line in infile.readlines()]
+        stopwords.extend(words)
+      return list(set(stopwords))
+    
+stopwords_mine = get_all_stopwords()
 
-root_keep = "C:\Python3\data_char_lines_top_100"
+def add_nltk_stopwords_to_set(stopwords_mine):
+  stopwords_nltk = set(stopwords.words('english'))
+  stopwords_all_inclusive = stopwords_mine + list(stopwords_nltk)
+  return stopwords_all_inclusive
+
+stopwords_all_inclusive = add_nltk_stopwords_to_set(stopwords_mine)
+
+root_keep = os.path.join(my_path, "data_char_lines_top_100")
 os.chdir(root_keep)
-picard_words = {}
-words = []
-with open("PICARD.txt") as infile:
-	w = infile.readlines()
-	for line in w:
-		lexs = line.split(" ")
-		words.extend(lexs)
 
-
+def process_files():  
+  for file in os.listdir(root_keep):
+    with open(os.path.join(root_keep, file)) as infile:
+      words = []
+      w = infile.readlines()
+      for line in w:
+        lexs = line.split(" ")
+        words.extend(lex)
+        
+        words = filter_words(words)
+        words = remove_stopwords(words)
+        words_dict = count_words(words)
+##        print(len(words_dict.keys()))
+##        for k, v in words_dict.items():
+##          if v>10:
+##            print(k, v)
+    
+    
 def filter_words(wordlist):
   filteredwords = []
   for w in wordlist:
@@ -32,23 +75,64 @@ def filter_words(wordlist):
     filteredwords.append(w)
   return filteredwords
 
+
 def remove_stopwords(words):
+  stopwords_count = 0
   filteredwords = []
   for w in words:
-    if w not in stopwords_nltk:
-      filteredwords.append(w)
+    if w not in stopwords_all_inclusive:
+##      if w not in stopwords_mine:
+        filteredwords.append(w)
+    elif w in stopwords_all_inclusive:
+      stopwords_count+=1
+  print(stopwords_count)
   return filteredwords
 
-words = filter_words(words)
-words = remove_stopwords(words)
 
 def count_words(words):
   d={}
   for w in set(words):
     d[w] = words.count(w)
-  for k, v in d.items():
-    if v>15:
-      print(k, v)
+  return(d)
 
 
-count_words(words)
+picard_words = {}
+words = []
+fname = ''
+with open("PICARD.txt") as infile:
+  w = infile.readlines()
+  for line in w:
+    lexs = line.split(" ")
+    words.extend(lexs)
+  fname, ext = "PICARD.txt".split(".")
+
+print("now processing")
+
+words = filter_words(words)
+words = remove_stopwords(words)
+w_dict = count_words(words)
+
+sd = sorted(w_dict.items(), key=lambda x: x[1], reverse=True)
+
+
+
+
+
+def makeImage(w_dict, fname):
+##    alice_mask = np.array(Image.open("alice_mask.png"))
+
+    wc = WordCloud(background_color="white", max_words=1000)# mask=alice_mask)
+    # generate word cloud
+    wc.generate_from_frequencies(w_dict)
+
+    # show
+    plt.imshow(wc, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
+    plt.savefig('{}.png'.format(fname), bbox_inches='tight')
+
+##for sdd in sd:
+##  print(sdd)
+
+
+makeImage(w_dict, fname)
