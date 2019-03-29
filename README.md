@@ -8,7 +8,7 @@ Using the website chakotay.net, which contains formatted scripts from all five S
 <img src="https://github.com/K10ForTheWin/Text_Analysis_Technobabble/issues/1#issue-427012687" width="100%"/>
 
 
-
+https://github.com/K10ForTheWin/Text_Analysis_Technobabble/issues/1#issue-427012687
 htm-process.py
 -Uses line comphrehensions to generate urls for series using episode number ranges.
 -Uses BeautifulSoup to get the contents of the webpage, writes to plain text files
