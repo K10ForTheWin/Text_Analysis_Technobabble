@@ -5,10 +5,9 @@ NLP (Natural Language Processing) Using Star Trek scripts as training data.
 Using the website chakotay.net, which contains formatted scripts from all five Star Trek series, this program downloads all the webpages into text files, sanitizes and preprocessing those scripts to extract character names and dialogue from the text, and models the dialogue of the top 100 characters (as ranked by lines spoken) into word clouds of the speaker.  Word Clouds graphically represent most spoken words in both size and colour, with larger font sizes indicating higher frequencies and darker colours representing desner allocations of words within the text.
 </p>
 
-<img src="https://github.com/K10ForTheWin/Text_Analysis_Technobabble/issues/1#issue-427012687" width="100%"/>
+<img src="https://user-images.githubusercontent.com/43615563/55239413-a306f600-5204-11e9-95d5-38bdc4dd8716.png" width="100%"/>
 
 
-https://github.com/K10ForTheWin/Text_Analysis_Technobabble/issues/1#issue-427012687
 htm-process.py
 -Uses line comphrehensions to generate urls for series using episode number ranges.
 -Uses BeautifulSoup to get the contents of the webpage, writes to plain text files
