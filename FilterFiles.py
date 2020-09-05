@@ -39,16 +39,16 @@ def dir_dir(dirname):
 my_path = os.path.abspath(os.path.dirname(__file__))
 path = os.path.join(my_path, "data_char_lines")
 
-contents = os.listdir(root)
 
-root_keep = "C:\Python3\data_char_lines_top_100"
+series=os.listdir(".\data_char_lines")
+root_keep = ".\data_char_lines_top_100"
 dir_dir(root_keep)
 
 mydict = {}
 keep_files=[]
-for c in contents:
+for c in series:
   file_sizes = []
-  r = os.path.join(root, c)
+  r = os.path.join(".\data_char_lines", c)
   for file in os.listdir(r):
     f = os.path.join(r, file)
     statinfo = os.stat(f)
@@ -59,7 +59,7 @@ for c in contents:
     file_sizes.append(size)
 
   mydict[c] = file_sizes
-  print(c, len(file_sizes), min(file_sizes), max(file_sizes), sum(file_sizes)/len(file_sizes))
+  print(c, len(file_sizes), min(file_sizes), max(file_sizes), int(sum(file_sizes)/len(file_sizes)))
       
 print(len(keep_files))
 
@@ -67,7 +67,7 @@ mydict2 = {}
 d={}
 for file in os.listdir(root_keep):
   f = os.path.join(root_keep, file)
-  with open(f) as infile:
+  with open(f,encoding='utf-8') as infile:
     lex = []
     lines = infile.readlines()
   ##      print(len(lines))
@@ -90,7 +90,7 @@ for x in sorted_x:
   print(x)
 
 
-root_keep = "C:\Python3\data_char_lines_top_100"
+root_keep = ".\data_char_lines_top_100"
 os.chdir(root_keep)
 picard_words = {}
 words = []

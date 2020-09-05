@@ -42,24 +42,9 @@ def add_nltk_stopwords_to_set(stopwords_mine):
 stopwords_all_inclusive = add_nltk_stopwords_to_set(stopwords_mine)
 
 root_keep = os.path.join(my_path, "data_char_lines_top_100")
-os.chdir(root_keep)
+##os.chdir(root_keep)
 
-def process_files():  
-  for file in os.listdir(root_keep):
-    with open(os.path.join(root_keep, file)) as infile:
-      words = []
-      w = infile.readlines()
-      for line in w:
-        lexs = line.split(" ")
-        words.extend(lex)
-        
-        words = filter_words(words)
-        words = remove_stopwords(words)
-        words_dict = count_words(words)
-##        print(len(words_dict.keys()))
-##        for k, v in words_dict.items():
-##          if v>10:
-##            print(k, v)
+
     
     
 def filter_words(wordlist):
@@ -85,7 +70,7 @@ def remove_stopwords(words):
         filteredwords.append(w)
     elif w in stopwords_all_inclusive:
       stopwords_count+=1
-  print(stopwords_count)
+ # print(stopwords_count)
   return filteredwords
 
 
@@ -96,43 +81,89 @@ def count_words(words):
   return(d)
 
 
-picard_words = {}
-words = []
-fname = ''
-with open("PICARD.txt") as infile:
-  w = infile.readlines()
-  for line in w:
-    lexs = line.split(" ")
-    words.extend(lexs)
-  fname, ext = "PICARD.txt".split(".")
-
-print("now processing")
-
-words = filter_words(words)
-words = remove_stopwords(words)
-w_dict = count_words(words)
-
-sd = sorted(w_dict.items(), key=lambda x: x[1], reverse=True)
-
-
-
-
 
 def makeImage(w_dict, fname):
 ##    alice_mask = np.array(Image.open("alice_mask.png"))
+    trek_mask=np.array(Image.open(os.path.join(my_path,"trek_mask.png")))
 
-    wc = WordCloud(background_color="white", max_words=1000)# mask=alice_mask)
+    wc = WordCloud(background_color="white", max_words=1000, mask=trek_mask)# mask=alice_mask)
     # generate word cloud
     wc.generate_from_frequencies(w_dict)
+##    fname, _, ext = fname.split(".")
+    fname=fname.capitalize()
+    wc.to_file(os.path.join(my_path,("{}.png".format(fname))))
 
-    # show
-    plt.imshow(wc, interpolation="bilinear")
+    plt.imshow(wc, interpolation='bilinear')
+    plt.axis("off")
+    plt.figure()
+    plt.imshow(trek_mask, cmap=plt.cm.gray, interpolation='bilinear')
     plt.axis("off")
     plt.show()
+
+    # show
+##    plt.imshow(wc, interpolation="bilinear")
+##    plt.axis("off")
+##    plt.show()
     plt.savefig('{}.png'.format(fname), bbox_inches='tight')
 
-##for sdd in sd:
-##  print(sdd)
 
 
-makeImage(w_dict, fname)
+#makeImage(w_dict, fname)
+
+
+picard_words = {}
+words = []
+fname = ''
+for file in os.listdir(".\wordclouds"):
+  words=[]
+    
+  with open(os.path.join(".\wordclouds",file), encoding='utf-8') as infile:
+    try:
+      w = infile.readlines()
+      for line in w:
+        lexs = line.split(" ")
+        words.extend(lexs)
+      print(file)
+      fname, ext = file.split(".",1)
+      print("now processing")
+  ##
+  ##words = filter_words(words)
+      words = remove_stopwords(words)
+      w_dict = count_words(words)
+
+##      sd = sorted(w_dict.items(), key=lambda x: x[1], reverse=True)
+
+      makeImage(w_dict, fname)
+
+    except UnicodeDecodeError:
+      pass
+
+
+
+
+
+print(fname)
+
+
+##
+##def process_files():  
+##  for file in os.listdir(root_keep):
+##    with open(os.path.join(root_keep, file),encoding="utf-8") as infile:
+##      words = []
+##      w = infile.readlines()
+##      for line in w:
+##        lexs = line.split(" ")
+##        words.extend(lexs)
+##        
+##        words = filter_words(words)
+##        words = remove_stopwords(words)
+##        words_dict = count_words(words)
+##
+##        makeImage(words_dict, file)
+####        print(len(words_dict.keys()))
+####        for k, v in words_dict.items():
+####          if v>10:
+####            print(k, v)
+##
+##
+##process_files()
