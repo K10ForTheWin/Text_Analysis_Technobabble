@@ -86,24 +86,25 @@ def makeImage(w_dict, fname):
 ##    alice_mask = np.array(Image.open("alice_mask.png"))
     trek_mask=np.array(Image.open(os.path.join(my_path,"trek_mask.png")))
 
-    wc = WordCloud(background_color="white", max_words=1000, mask=trek_mask)# mask=alice_mask)
+    wc = WordCloud(background_color="white", max_words=1000, mask=trek_mask, width=3200, height=3200)# mask=alice_mask)
     # generate word cloud
     wc.generate_from_frequencies(w_dict)
 ##    fname, _, ext = fname.split(".")
     fname=fname.capitalize()
     wc.to_file(os.path.join(my_path,("{}.png".format(fname))))
-
+    ##
+    plt.figure(figsize=(20,10))
+    
     plt.imshow(wc, interpolation='bilinear')
     plt.axis("off")
-    plt.figure()
+
     plt.imshow(trek_mask, cmap=plt.cm.gray, interpolation='bilinear')
     plt.axis("off")
     plt.show()
 
-    # show
 ##    plt.imshow(wc, interpolation="bilinear")
 ##    plt.axis("off")
-##    plt.show()
+  #  plt.show()
     plt.savefig('{}.png'.format(fname), bbox_inches='tight')
 
 
