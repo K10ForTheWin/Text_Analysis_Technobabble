@@ -35,7 +35,7 @@ def get_all_stopwords(character_names=True):
 stopwords_mine = get_all_stopwords()
 
 def add_nltk_stopwords_to_set(stopwords_mine):
-    try: ##<LUCIFER Added try/except because first-time run gave me a need to execute nltk.download('stopwords')
+  try: ##<LUCIFER Added try/except because first-time run gave me a need to execute nltk.download('stopwords')
     stopwords_nltk = set(stopwords.words('english'))
   except Exception:
     import nltk
@@ -106,8 +106,8 @@ def makeImage(w_dict, fname):
     plt.imshow(wc, interpolation='bilinear')
     plt.axis("off")
 
-    plt.imshow(trek_mask, cmap=plt.cm.gray, interpolation='bilinear')
-    plt.axis("off")
+    #plt.imshow(trek_mask, cmap=plt.cm.gray, interpolation='bilinear')
+    #plt.axis("off")
     plt.show()
 
 ##    plt.imshow(wc, interpolation="bilinear")
