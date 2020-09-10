@@ -99,7 +99,7 @@ def makeImage(w_dict, fname):
     wc.generate_from_frequencies(w_dict)
 ##    fname, _, ext = fname.split(".")
     fname=fname.capitalize()
-    wc.to_file(os.path.join(my_path,("{}.png".format(fname))))
+    wc.to_file(os.path.join(my_path,'wordcloud_out' ,("{}.png".format(fname))))
     ##
     plt.figure(figsize=(20,10))
     
@@ -113,7 +113,7 @@ def makeImage(w_dict, fname):
 ##    plt.imshow(wc, interpolation="bilinear")
 ##    plt.axis("off")
   #  plt.show()
-    plt.savefig('{}.png'.format(fname), bbox_inches='tight')
+    #plt.savefig('{}.png'.format(fname), bbox_inches='tight')
 
 
 
