@@ -102,7 +102,7 @@ def check_keys(k):
 
 def create_dest(folder):
   _, series = folder.split("_")
-  dirname = os.path.join(".\data_char_lines", series)
+  dirname = os.path.join("data_char_lines", series)
   dir_dir(dirname)
   return dirname
 
@@ -118,10 +118,10 @@ def write_lines(mydict,dest_folder):
           outfile.write("\n")
 
 
-root = ".\data"
+root = "data"
 folders = os.listdir(root)
 
-root_dest = ".\data_char_lines"
+root_dest = "data_char_lines"
 dir_dir(root_dest)
 
 ##ONLY RUN THIS METHOD ONCE UNLESS YOU WIPE CONTENTS OF DEST FOLDER FIRST
@@ -157,7 +157,7 @@ process_all_scripts()
 print(len(mychardict))
 
 def fix_enterprise():
-  ent = ".\data\scripts_Enterprise"
+  ent = "data\scripts_Enterprise"
   files = os.listdir(ent)
   for file in files:
     print(file)
@@ -169,7 +169,7 @@ def fix_enterprise():
       
       flines=process_file(file_loc)
       ch_line_dict = create_char_dict(flines)
-      dest_folder=".\data_char_lines\Enterprise"
+      dest_folder="data_char_lines\Enterprise"
       write_lines(ch_line_dict, dest_folder)
 
 #fix_enterprise()

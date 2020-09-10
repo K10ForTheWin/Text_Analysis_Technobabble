@@ -1,0 +1,6 @@
+nltk
+multidict
+bs4
+wordcloud
+matplotlib
+Pillow

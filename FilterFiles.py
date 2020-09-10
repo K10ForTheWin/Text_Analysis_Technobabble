@@ -40,15 +40,15 @@ my_path = os.path.abspath(os.path.dirname(__file__))
 path = os.path.join(my_path, "data_char_lines")
 
 
-series=os.listdir(".\data_char_lines")
-root_keep = ".\data_char_lines_top_100"
+series=os.listdir("data_char_lines")
+root_keep = "data_char_lines_top_100"
 dir_dir(root_keep)
 
 mydict = {}
 keep_files=[]
 for c in series:
   file_sizes = []
-  r = os.path.join(".\data_char_lines", c)
+  r = os.path.join("data_char_lines", c)
   for file in os.listdir(r):
     f = os.path.join(r, file)
     statinfo = os.stat(f)
@@ -90,7 +90,7 @@ for x in sorted_x:
   print(x)
 
 
-root_keep = ".\data_char_lines_top_100"
+root_keep = "data_char_lines_top_100"
 os.chdir(root_keep)
 picard_words = {}
 words = []
