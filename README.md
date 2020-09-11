@@ -7,23 +7,26 @@ Using the website http://chakoteya.net/StarTrek/index.html, which contains forma
 
 <img src="https://raw.githubusercontent.com/K10ForTheWin/Text_Analysis_Technobabble/master/wordcloud_out/Barclay.png" width="100%"/>
 
+### Python file descriptions
 
-htm-process.py
--Uses line comphrehensions to generate urls for series using episode number ranges.
--Uses BeautifulSoup to get the contents of the webpage, writes to plain text files
+### htm-process.py
+  - Call this method first to scrape website for scripts
+  -Uses line comphrehensions to generate urls for series using episode number ranges.
+  -Uses BeautifulSoup to get the contents of the webpage, writes to plain text files
 
-ProcessAllScripts-2.py
--Concatenates multiline character dialogue into single lines
--Saves character's spoken lines into dictionary where character name is the key and value is the dialogue
--Creates folder data_char_lines to store each series as a folder and each character's dialogue as a file within the appropriate series folder
+### ProcessAllScripts-2.py
+  - Extracts lines of dialogue from full script, ignoring erroneous text
+  - Concatenates multiline character dialogue into single lines
+  - Saves character's spoken lines into dictionary where {key: value} are represented as {character_name: lines_of_dialogue}.
+  - Generates content for data_char_lines, with a folder per series with character's dialogue as text files stored within the folder.
 
-FilterFiles.py
--Uses file size to calculate a cutoff point for character files to keep
--Natural cutoff occurs at top 100 characters
+### FilterFiles.py
+  - Uses file size to calculate a cutoff point for character files to keep
+  - Natural cutoff occurs at top ~100 characters
 
-processWords.py
--loads in stopwords list (words to be removed from analysis) from nltk standard package and personal, curated list of stopwords collected through NLP projects in school
--Removes stopwords and punctuation from dialogue
--Counts words, sorts by count
--Makes a Word Cloud image of top words using Python package wordcloud
+### processWords.py
+  - Uses files in resources/ folder to create stopwords list (words to be removed from analysis) from nltk standard package and personal, curated list of stopwords collected       through NLP projects in school.
+  - Removes stopwords and punctuation from words dictionary.
+  - Create word frequency dictionary per character.
+  - Generates a Word Cloud image of top words for files listed in char_lines_top_100
 
